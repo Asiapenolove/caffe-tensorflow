@@ -37,13 +37,13 @@ net = MyNet({'data': images})
 ip2 = net.layers['ip2']
 pred = tf.nn.softmax(ip2)
 
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(ip2, labels), 0)
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=ip2,labels= labels), 0)
 opt = tf.train.RMSPropOptimizer(0.001)
 train_op = opt.minimize(loss)
 
 with tf.Session() as sess:
     # Load the data
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.global_variables_initializer())
     net.load('mynet.npy', sess)
 
     data_gen = gen_data_batch(mnist.train)
